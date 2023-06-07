@@ -18,12 +18,31 @@
 
 			<sonar.organization>vijitha01</sonar.organization>
 			<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<jacoco.version>0.8.10</jacoco.version>
+		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.sources>src/main/java</sonar.sources>
+		<sonar.language>java</sonar.language>
+		<sonar.inclusions>
+			**/com/example/springassignment/configuration/**,
+			**/com/example/springassignment/controller/**,
+			**/com/example/springassignment/dto/**,
+			**/com/example/springassignment/model/**,
+			**/com/example/springassignment/repository/**,
+			**/com/example/springassignment/service/**,
 
+		</sonar.inclusions>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.yaml</groupId>
+			<artifactId>snakeyaml</artifactId>
+			<version>2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -51,11 +70,63 @@
 			<version>5.10.0-M1</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.jacoco</groupId>
+			<artifactId>jacoco-maven-plugin</artifactId>
+			<version>0.8.10</version>
+		</dependency>
 	</dependencies>
+
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
 
+
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.10</version>
+				<configuration>
+					<includes>
+						<include>com/example/springbootasg/controller/**</include>
+						<include>com/example/springbootasg/service/**</include>
+						<include>com/example/springbootasg/dto/**</include>
+						<include>com/example/springbootasg/model/**</include>
+						<include>com/example/springbootasg/repository/**</include>
+					</includes>
+				</configuration>
+				<executions>
+					<execution>
+						<id>jacoco-initialize</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>jacoco-site</id>
+						<phase>package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.22.2</version>
+			</plugin>
 		</plugins>
 	</build>
-
 </project>

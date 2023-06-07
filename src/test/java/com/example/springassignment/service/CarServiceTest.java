@@ -3,6 +3,7 @@ package com.example.springassignment.service;
 import com.example.springassignment.dto.CarDto;
 import com.example.springassignment.model.Car;
 import com.example.springassignment.repository.CarRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
-
+@Slf4j
 class CarServiceTest {
 
     @Test
@@ -67,6 +68,7 @@ class CarServiceTest {
         CarService carService = new CarService(carRepository);
         // when
         carService.addNewCar(newCarDto);
+        log.info(newCarDto.toString());
         // then
         verify(carRepository, times(1)).save(any(Car.class));
     }

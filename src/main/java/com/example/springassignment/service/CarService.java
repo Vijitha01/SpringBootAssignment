@@ -26,9 +26,6 @@ public class CarService {
     public void addNewCar(Car car) {
         Optional<Car> carOptional = carRepository
                 .findCarByBrand(car.getBrand());
-        if (carOptional.isPresent()) {
-            throw new IllegalStateException("New Brand car added");
-        }
         carRepository.save(car);
     }
 
@@ -41,16 +38,11 @@ public class CarService {
                 .orElseThrow(() -> new IllegalStateException(
                         "Car with id " + carId + "does not exists"
                 ));
-        if (price != null &&
-                price > 0 && !Objects.equals(car.getPrice(), price)) {
+        if (!Objects.equals(car.getPrice(), price)) {
             car.setPrice(price);
         }
-        if (brand != null && brand.length() > 0 &&
-                !Objects.equals(car.getBrand(), brand)) {
+        if (!Objects.equals(car.getBrand(), brand)) {
             Optional<Car> carOptional = carRepository.findCarByBrand(brand);
-            if (carOptional.isPresent()) {
-                throw new IllegalStateException("car updated");
-            }
             car.setBrand(brand);
         }
 

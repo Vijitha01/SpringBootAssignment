@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
+
 
 @Service
 public class CarService {
@@ -24,8 +24,6 @@ public class CarService {
     }
 
     public void addNewCar(Car car) {
-        Optional<Car> carOptional = carRepository
-                .findCarByBrand(car.getBrand());
         carRepository.save(car);
     }
 
@@ -42,7 +40,6 @@ public class CarService {
             car.setPrice(price);
         }
         if (!Objects.equals(car.getBrand(), brand)) {
-            Optional<Car> carOptional = carRepository.findCarByBrand(brand);
             car.setBrand(brand);
         }
 

@@ -7,21 +7,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 @Slf4j
 class CarServiceTest {
-
-    @Test
-    void Test() {
-        assertTrue(true);
-    }
     @Test
     @DisplayName("Displays the car details")
     void testShowAllCars(){
@@ -44,17 +43,25 @@ class CarServiceTest {
         verify(carRepository, times(1)).findAll();
         Assertions.assertEquals(2,carslist.size());
        }
-       @Test
+       @ParameterizedTest
+       @CsvSource({
+               "'kiya', 900000",                   // No changes
+               "'kiya updated', 1000000",// Only price changed
+       })
        @DisplayName("New Updates in car")
-    void testUpdateCar(){
+    void testUpdateCar(String CarName,Integer CarCost){
         CarRepository carRepository = mock(CarRepository.class);
         Car existingCar = new Car("kiya", 900000);
-        Car updatedCar = new Car("kiya updated", 1000000);
+        Car updatedCar = new Car(CarName, CarCost);
         given(carRepository.findById(1L)).willReturn(Optional.of(existingCar));
         given(carRepository.save(any(Car.class))).willReturn(updatedCar);
         CarService carService = new CarService(carRepository);
            // when
-           carService.updateCar(1L, "kiya updated", 800000);
+
+           carService.updateCar(1L, updatedCar.getBrand(), updatedCar.getPrice());
+           Assertions.assertThrows(IllegalStateException.class, () -> {
+               carService.updateCar(2L, updatedCar.getBrand(), updatedCar.getPrice());
+           });
            //then
            verify(carRepository, times(1)).findById(1L);
 
@@ -68,7 +75,8 @@ class CarServiceTest {
         CarService carService = new CarService(carRepository);
         // when
         carService.addNewCar(newCarDto);
-        log.info(newCarDto.toString());
+        CarDto newCar = new CarDto(2L,"tokyo",600000);
+        assertNotNull(newCar.toString());
         // then
         verify(carRepository, times(1)).save(any(Car.class));
     }

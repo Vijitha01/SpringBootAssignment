@@ -99,11 +99,11 @@
 				<version>0.8.10</version>
 				<configuration>
 					<includes>
-						<include>com/example/springbootasg/controller/**</include>
-						<include>com/example/springbootasg/service/**</include>
-						<include>com/example/springbootasg/dto/**</include>
-						<include>com/example/springbootasg/model/**</include>
-						<include>com/example/springbootasg/repository/**</include>
+						<include>com/example/springassignment/controller/**</include>
+						<include>com/example/springassignment/service/**</include>
+						<include>com/example/springassignment/dto/**</include>
+						<include>com/example/springassignment/model/**</include>
+						<include>com/example/springassignment/repository/**</include>
 					</includes>
 				</configuration>
 				<executions>

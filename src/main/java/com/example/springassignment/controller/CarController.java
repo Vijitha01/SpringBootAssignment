@@ -20,19 +20,22 @@ public class CarController {
 return carService.getCars();
     }
     @PostMapping("/")
-    public void registerNewCar(@RequestBody Car car){
+    public String registerNewCar(@RequestBody Car car){
         carService.addNewCar(car);
+        return "New Car Details are Added";
     }
     @DeleteMapping(path = "{carId}")
-    public void deleteCar(@PathVariable("carId") Long carId){
+    public String deleteCar(@PathVariable("carId") Long carId){
         carService.deleteCar(carId);
+        return "Car Deleted";
     }
     @PutMapping(path="{carId}")
-    public void updateCar(
+    public String updateCar(
             @PathVariable("carId") Long carId,
             @RequestParam(required = false) String brand,
             @RequestParam(required = false) Integer price
     ) {
         carService.updateCar(carId, brand,price);
+        return "Car Data is updated";
     }
 }
